@@ -10,4 +10,7 @@
 #         get the audio, convert to text
 #         pass text query to nlp mode, get response
 #         POST request at /nlp
-#         return the response to patient as audio
+#         return the response to patient as audio 
+
+
+#testing this is edit mode test to check whether push pull working 
