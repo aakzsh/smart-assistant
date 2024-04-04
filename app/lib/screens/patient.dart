@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smartassistant/contants/colors.dart';
 
 class Patient extends StatefulWidget {
-  const Patient({super.key});
+  const Patient({super.key, required this.patient});
+  final Map<String, dynamic> patient;
 
   @override
   State<Patient> createState() => _PatientState();
@@ -21,7 +22,7 @@ class _PatientState extends State<Patient> {
               SizedBox(height: 10,),
            Stack(
             children: [Text(
-                "John Doe",
+                 "${widget.patient['name']['first'].toString()} ${widget.patient['name']['last'].toString()}",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -30,7 +31,27 @@ class _PatientState extends State<Patient> {
               ),
               Image.asset("assets/heartright.png", width: double.maxFinite,),],
            ),
-            Expanded(child: ListView.builder(itemBuilder: ((context, index) => ListTile())),)
+           Text(widget.patient.toString()),
+            Expanded(child: ListView.builder(itemBuilder: ((context, index) => ListTile())),),
+
+             Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
+                child: MaterialButton(
+                  onPressed: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>AllPatients()));
+                  },
+                  child: Text(
+                    "Save Details",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  color: AppColors.navyblue,
+                  minWidth: double.maxFinite,
+                  height: 50,
+                ),
+              )
           ],),
         ),
       ),

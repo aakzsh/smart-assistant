@@ -16,10 +16,10 @@ def edit():
     # edit patient details from here
     return "patient details edit"
 
-@app.route('/nlp')
-def edit():
-    # get prompt, generate and return response
-    return "response"
+# @app.route('/nlp')
+# def edit():
+#     # get prompt, generate and return response
+#     return "response"
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False)

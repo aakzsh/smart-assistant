@@ -1,0 +1,393 @@
+
+{
+    "data": [
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "Mounds",
+                    "country": "US",
+                    "line": [
+                        "49 Meadow St"
+                    ],
+                    "postalCode": "74047",
+                    "state": "OK"
+                }
+            ],
+            "assignedNurse": "Samantha",
+            "birthDate": "2007-02-20",
+            "contact": "+91 91919191919",
+            "familyContact": "+91 9292929292929",
+            "gender": "female",
+            "id": "example1",
+            "medication": [
+                {
+                    "name": "xyz medicine",
+                    "remarks": "take with water",
+                    "time": [
+                        "05:00",
+                        "22:00"
+                    ]
+                },
+                {
+                    "name": "xyz2",
+                    "remarks": "",
+                    "time": [
+                        "20:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "John",
+                "last": "Doe"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "Springfield",
+                    "country": "US",
+                    "line": [
+                        "123 Oak St"
+                    ],
+                    "postalCode": "12345",
+                    "state": "IL"
+                }
+            ],
+            "assignedNurse": "Jennifer",
+            "birthDate": "1985-09-12",
+            "contact": "+91 9876543210",
+            "familyContact": "+91 9876543210",
+            "gender": "male",
+            "id": "example2",
+            "medication": [
+                {
+                    "name": "Painkiller",
+                    "remarks": "take after meals",
+                    "time": [
+                        "08:00",
+                        "14:00",
+                        "20:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "Alice",
+                "last": "Smith"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "San Francisco",
+                    "country": "US",
+                    "line": [
+                        "456 Elm St"
+                    ],
+                    "postalCode": "94110",
+                    "state": "CA"
+                }
+            ],
+            "assignedNurse": "Michael",
+            "birthDate": "1990-05-25",
+            "contact": "+1 1234567890",
+            "familyContact": "+1 0987654321",
+            "gender": "male",
+            "id": "example3",
+            "medication": [
+                {
+                    "name": "Antibiotic",
+                    "remarks": "take with food",
+                    "time": [
+                        "09:00",
+                        "18:00"
+                    ]
+                },
+                {
+                    "name": "Vitamin C",
+                    "remarks": "take before bedtime",
+                    "time": [
+                        "22:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "Emily",
+                "last": "Johnson"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "New York",
+                    "country": "US",
+                    "line": [
+                        "789 Maple St"
+                    ],
+                    "postalCode": "10001",
+                    "state": "NY"
+                }
+            ],
+            "assignedNurse": "Jessica",
+            "birthDate": "1978-12-30",
+            "contact": "+1 5551234567",
+            "familyContact": "+1 5559876543",
+            "gender": "female",
+            "id": "example4",
+            "medication": [
+                {
+                    "name": "Insulin",
+                    "remarks": "inject before meals",
+                    "time": [
+                        "07:00",
+                        "12:00",
+                        "19:00"
+                    ]
+                },
+                {
+                    "name": "Blood Pressure Medication",
+                    "remarks": "take after meals",
+                    "time": [
+                        "08:00",
+                        "20:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "David",
+                "last": "Williams"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "Los Angeles",
+                    "country": "US",
+                    "line": [
+                        "101 Pine St"
+                    ],
+                    "postalCode": "90001",
+                    "state": "CA"
+                }
+            ],
+            "assignedNurse": "Michelle",
+            "birthDate": "1965-03-18",
+            "contact": "+1 7778889999",
+            "familyContact": "+1 9998887777",
+            "gender": "female",
+            "id": "example5",
+            "medication": [
+                {
+                    "name": "Antidepressant",
+                    "remarks": "take in the morning",
+                    "time": [
+                        "08:00"
+                    ]
+                },
+                {
+                    "name": "Sleeping Pill",
+                    "remarks": "take before bedtime",
+                    "time": [
+                        "22:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "Sarah",
+                "last": "Brown"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "Chicago",
+                    "country": "US",
+                    "line": [
+                        "246 Main St"
+                    ],
+                    "postalCode": "60601",
+                    "state": "IL"
+                }
+            ],
+            "assignedNurse": "Christopher",
+            "birthDate": "1999-08-05",
+            "contact": "+1 3334445555",
+            "familyContact": "+1 5554443333",
+            "gender": "male",
+            "id": "example6",
+            "medication": [
+                {
+                    "name": "Allergy Medication",
+                    "remarks": "take as needed",
+                    "time": []
+                }
+            ],
+            "name": {
+                "first": "Emma",
+                "last": "Martinez"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "Houston",
+                    "country": "US",
+                    "line": [
+                        "369 Pine St"
+                    ],
+                    "postalCode": "77002",
+                    "state": "TX"
+                }
+            ],
+            "assignedNurse": "David",
+            "birthDate": "1970-11-15",
+            "contact": "+1 2223334444",
+            "familyContact": "+1 4443332222",
+            "gender": "male",
+            "id": "example7",
+            "medication": [
+                {
+                    "name": "Heart Medication",
+                    "remarks": "take after meals",
+                    "time": [
+                        "08:00",
+                        "20:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "Sophia",
+                "last": "Rodriguez"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "Dallas",
+                    "country": "US",
+                    "line": [
+                        "789 Pine St"
+                    ],
+                    "postalCode": "75201",
+                    "state": "TX"
+                }
+            ],
+            "assignedNurse": "Jessica",
+            "birthDate": "1982-04-10",
+            "contact": "+1 6667778888",
+            "familyContact": "+1 8887776666",
+            "gender": "female",
+            "id": "example8",
+            "medication": [
+                {
+                    "name": "Thyroid Medication",
+                    "remarks": "take in the morning",
+                    "time": [
+                        "08:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "Matthew",
+                "last": "Garcia"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "Seattle",
+                    "country": "US",
+                    "line": [
+                        "101 Main St"
+                    ],
+                    "postalCode": "98101",
+                    "state": "WA"
+                }
+            ],
+            "assignedNurse": "Jennifer",
+            "birthDate": "1995-06-20",
+            "contact": "+1 9990001111",
+            "familyContact": "+1 1110009999",
+            "gender": "female",
+            "id": "example9",
+            "medication": [
+                {
+                    "name": "Allergy Medication",
+                    "remarks": "take as needed",
+                    "time": []
+                },
+                {
+                    "name": "Vitamin D",
+                    "remarks": "take in the morning",
+                    "time": [
+                        "08:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "Daniel",
+                "last": "Lopez"
+            },
+            "resourceType": "Patient"
+        },
+        {
+            "active": true,
+            "address": [
+                {
+                    "city": "Miami",
+                    "country": "US",
+                    "line": [
+                        "369 Elm St"
+                    ],
+                    "postalCode": "33101",
+                    "state": "FL"
+                }
+            ],
+            "assignedNurse": "Jessica",
+            "birthDate": "1988-11-25",
+            "contact": "+1 7778889999",
+            "familyContact": "+1 9998887777",
+            "gender": "female",
+            "id": "example10",
+            "medication": [
+                {
+                    "name": "Antidepressant",
+                    "remarks": "take in the morning",
+                    "time": [
+                        "08:00"
+                    ]
+                },
+                {
+                    "name": "Antibiotic",
+                    "remarks": "take with food",
+                    "time": [
+                        "09:00",
+                        "18:00"
+                    ]
+                }
+            ],
+            "name": {
+                "first": "Olivia",
+                "last": "Taylor"
+            },
+            "resourceType": "Patient"
+        }
+    ]
+    
+}
