@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smartassistant/screens/home.dart';
 
 void main(){
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {

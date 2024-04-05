@@ -1,0 +1,11 @@
+body{
+    background-color: #3C82A0;
+    color: white;
+    font-family: sans-serif;
+    padding: 2rem;
+}
+
+.headingtitle{
+    font-size: 3rem;
+    font-weight: 700;
+}

@@ -19,12 +19,12 @@ class _PatientState extends State<Patient> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
            Stack(
             children: [Text(
                  "${widget.patient['name']['first'].toString()} ${widget.patient['name']['last'].toString()}",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.navyblue,
                     fontSize: 20),
@@ -32,24 +32,24 @@ class _PatientState extends State<Patient> {
               Image.asset("assets/heartright.png", width: double.maxFinite,),],
            ),
            Text(widget.patient.toString()),
-            Expanded(child: ListView.builder(itemBuilder: ((context, index) => ListTile())),),
+            Expanded(child: ListView.builder(itemBuilder: ((context, index) => const ListTile())),),
 
              Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
+                padding: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
                 child: MaterialButton(
                   onPressed: () {
                     // Navigator.push(context, MaterialPageRoute(builder: (context)=>AllPatients()));
                   },
-                  child: Text(
-                    "Save Details",
-                    style: TextStyle(color: Colors.white),
-                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   color: AppColors.navyblue,
                   minWidth: double.maxFinite,
                   height: 50,
+                  child: const Text(
+                    "Save Details",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               )
           ],),

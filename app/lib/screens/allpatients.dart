@@ -20,14 +20,13 @@ class _AllPatientsState extends State<AllPatients> {
     setState(() {
       res = json.decode(r)['data'];
     });
-    print(res);
+    // print(res);
   }
   @override
   void initState(){
     super.initState();
    setRes();
   }
-  List<String> hehe = ["", "", ""];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,12 +36,12 @@ class _AllPatientsState extends State<AllPatients> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Stack(
                 children: [
-                  Text(
+                  const Text(
                     "Patient Records",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -73,7 +72,7 @@ class _AllPatientsState extends State<AllPatients> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(left: 10),
+                                  padding: const EdgeInsets.only(left: 10),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -81,19 +80,19 @@ class _AllPatientsState extends State<AllPatients> {
                                     children: [
                                       Text(
                                         "${res[index]['name']['first'].toString()} ${res[index]['name']['last'].toString()}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(res[index]['gender'].toString(),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold))
                                     ],
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
                                   child: Center(
                                     child: IconButton(
                                         onPressed: () {
@@ -103,7 +102,7 @@ class _AllPatientsState extends State<AllPatients> {
                                                   builder: (context) =>
                                                       Patient(patient: res[index])));
                                         },
-                                        icon: Icon(Icons.arrow_forward_ios)),
+                                        icon: const Icon(Icons.arrow_forward_ios)),
                                   ),
                                 )
                               ],

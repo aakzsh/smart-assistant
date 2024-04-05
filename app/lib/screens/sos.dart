@@ -18,12 +18,12 @@ class _SOSState extends State<SOS> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Stack(
                 children: [
-                  Text(
+                  const Text(
                     "SOS Calls!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -50,7 +50,7 @@ class _SOSState extends State<SOS> {
                             decoration: BoxDecoration(
                                 color: AppColors.peacered.withOpacity(0.3),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
@@ -83,21 +83,21 @@ class _SOSState extends State<SOS> {
                         )))),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10, right: 10),
+                padding: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
                 child: MaterialButton(
                   onPressed: () {
                     // Navigator.push(context, MaterialPageRoute(builder: (context)=>AllPatients()));
                   },
-                  child: Text(
-                    "Clear All",
-                    style: TextStyle(color: Colors.white),
-                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   color: AppColors.navyblue,
                   minWidth: double.maxFinite,
                   height: 50,
+                  child: const Text(
+                    "Clear All",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               )
             ],

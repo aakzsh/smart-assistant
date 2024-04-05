@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 100,
           ),
           Column(
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
                 "assets/heartbeat.png",
                 width: double.maxFinite,
               ),
-              Text(
+              const Text(
                 "Smart Assistant\nfor Hospitals",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -45,28 +45,28 @@ class _HomeState extends State<Home> {
               children: [
                 MaterialButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AllPatients()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const AllPatients()));
                   },
-                  child: Text("Patient Records"),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   color: Colors.white70,
                   minWidth: 300,
                   height: 50,
+                  child: const Text("Patient Records"),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 MaterialButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SOS()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const SOS()));
                   },
-                  child: Text("Recent SOS Calls"),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   color: Colors.white70,
                   minWidth: 300,
                   height: 50,
+                  child: const Text("Recent SOS Calls"),
                 ),
               ],
             ),
