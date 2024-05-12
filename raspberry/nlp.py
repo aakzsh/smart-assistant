@@ -1,84 +1,80 @@
-# this would contain the code for the nlp mode part
-
-
-# while true:
-#     keep listening for audio
-
-#     if audio doesnt contains "smart assistant":
-#         ignore
-#     else:
-#         get the audio, convert to text
-#         pass text query to nlp mode, get response
-#         POST request at /nlp
-#         return the response to patient as audio 
-
-
-#testing this is edit mode test to check whether push pull working 
-import pyttsx3
 import speech_recognition as sr
+import pyttsx3
+import requests
+import json
 
+# Initialize Text-to-Speech engine
 engine = pyttsx3.init()
 
+# Initialize Speech Recognition
 recognizer = sr.Recognizer()
 
-
-engine.setProperty('rate', 150)    
-engine.setProperty('volume', 0.9)  
-
+# Function to speak the response
 def speak(text):
-    
     engine.say(text)
     engine.runAndWait()
 
-def get_medical_info(query):
-    #dataset abhi random internet 
-    medical_info = {
-        'fever': 'Fever is a common symptom of various medical conditions, often caused by infections.',
-        'headache': 'A headache can be caused by stress, tension, dehydration, or other medical conditions.',
-        'broken bone': 'If you suspect a broken bone, seek medical attention immediately and avoid moving the affected area.',
-        'burn': 'For minor burns, run cool water over the affected area and apply aloe vera or an over-the-counter burn cream.',
-        'heart attack': 'If you suspect someone is having a heart attack, call emergency services immediately and perform CPR if trained.',
-        'Jatin': ' Founder',
-        'Akash' : ' Founder'
-    }
-    
-    return medical_info.get(query.lower(), 'Sorry, Nurse is busy.')
-
-def listen_command():
-   
+# Function to recognize speech
+def listen():
     with sr.Microphone() as source:
-        print("Speak Up Please...")
+        print("Listening...")
         recognizer.adjust_for_ambient_noise(source)
-        audio_data = recognizer.listen(source)
-        command = ""
-        
-        try:
-            command = recognizer.recognize_google(audio_data)
-            print(f"You said: {command}")
-        except sr.UnknownValueError:
-            print("Sorry, I did not understand that.")
-        except sr.RequestError:
-            print("Sorry, my speech service is currently unavailable.")
-        
-        return command.lower()
+        audio = recognizer.listen(source)
 
+    try:
+        query = recognizer.recognize_google(audio).lower()
+        print("User Query:", query)
+        return query
+    except sr.UnknownValueError:
+        print("Sorry, I couldn't understand what you said.")
+        return ""
+    except sr.RequestError as e:
+        print("Request to Google Speech Recognition service failed; {0}".format(e))
+        return ""
+
+# Function to query Gemini API
+def get_gemini_data(query):
+    api_key = "AIzaSyCevIBWjGD3ByxwMfItNL3vmWhKFw-J0u8"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={api_key}"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "input": {
+            "textInput": query
+        }
+        # "outputConfig": {
+        #     "gated": False
+        # }
+    }
+    #data_json = json.dumps(data)
+    response = requests.post(url, headers=headers, json=data)
+    response_data = response.json()
+    return response_data
+
+    
+
+# # Example usage
+query = "What is fever."
+result = get_gemini_data(query)
+print(result)
+
+
+# Main function
 def main():
+    speak("Welcome to SHPA, Say help for assistant")
+    wakeup = listen()
+    if wakeup == "help":
+         speak("Hello! How can I assist you today?")
+         while True:
+             user_query = listen()
+             if user_query == "exit":
+                 speak("Hope I helped you today take care, get well soon!")
+                 break
+             elif user_query:
+                 gemini_data = get_gemini_data(user_query)
+                 response_text = "Here is what you should do now: {}".format(gemini_data)
+                 speak(response_text)
     
-    speak("Hello! I am your SmartAAI. Are you ok or need help?")
-    
-    while True:
-        speak("Please speak up your concern.")
-        
-        user_command = listen_command()
-        
-        if 'exit' in user_command:
-            speak("Takecare!")
-            break
-        
-        print(f"SmartAAI: You asked about {user_command}.")
-        
-        response = get_medical_info(user_command)
-        speak(response)
+   
 
 if __name__ == "__main__":
     main()
