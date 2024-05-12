@@ -7,9 +7,9 @@
             "timestamp": "2024-04-03 10:20:32"
         },
         {
-            "patientName": "John Doe",
+            "patientName": "Marilyn",
             "age": 31,
-            "gender": "M",
+            "gender": "F",
             "timestamp": "2024-04-03 10:20:32"
         },
         {
@@ -19,9 +19,9 @@
             "timestamp": "2024-04-03 10:20:32"
         },
         {
-            "patientName": "John Doe",
+            "patientName": "Marilyn",
             "age": 31,
-            "gender": "M",
+            "gender": "F",
             "timestamp": "2024-04-03 10:20:32"
         }
     ]
