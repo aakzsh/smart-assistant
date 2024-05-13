@@ -1,28 +1,12 @@
 {
     "sos": [
         {
-            "patientName": "John Doe",
             "age": 31,
             "gender": "M",
-            "timestamp": "2024-04-03 10:20:32"
-        },
-        {
-            "patientName": "Marilyn",
-            "age": 31,
-            "gender": "F",
-            "timestamp": "2024-04-03 10:20:32"
-        },
-        {
+            "id": "xyz",
             "patientName": "John Doe",
-            "age": 31,
-            "gender": "M",
-            "timestamp": "2024-04-03 10:20:32"
-        },
-        {
-            "patientName": "Marilyn",
-            "age": 31,
-            "gender": "F",
-            "timestamp": "2024-04-03 10:20:32"
+            "timestamp": "2024-04-03 10:20:32",
+            "wardnum": 23
         }
     ]
 }

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:smartassistant/constants/colors.dart';
 import 'package:smartassistant/constants/helper.dart';
+import 'package:smartassistant/services/apis.dart';
 
 class EmergencyDetails extends StatefulWidget {
   const EmergencyDetails({super.key});
@@ -10,6 +13,21 @@ class EmergencyDetails extends StatefulWidget {
 }
 
 class _EmergencyDetailsState extends State<EmergencyDetails> {
+    List<dynamic> data = [];
+  getEmergencyCalls()async{
+    final res = await getRequest( "${Helper.server}/emergencycalls");
+    // print(res.body);
+    setState(() {
+      data = jsonDecode(res.body)["sos"];
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getEmergencyCalls();
+  }
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -41,7 +59,7 @@ class _EmergencyDetailsState extends State<EmergencyDetails> {
             Image.asset("assets/heart-right.png"),
             Expanded(
                 child: ListView.builder(
-                    itemCount: 20,
+                    itemCount: data.length,
                     itemBuilder: ((context, index) => InkWell(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -51,7 +69,7 @@ class _EmergencyDetailsState extends State<EmergencyDetails> {
                               decoration: BoxDecoration(
                                   color: AppColors.lightred,
                                   borderRadius: BorderRadius.circular(10)),
-                              child:const Padding(
+                              child: Padding(
                                   padding:  EdgeInsets.all(10.0),
                                   child: Row(
                                     mainAxisAlignment:
@@ -61,15 +79,20 @@ class _EmergencyDetailsState extends State<EmergencyDetails> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text("John Doe"),
+                                          Text(data[index]["patientName"]),
                                           Text(
-                                            "Timestamp: xyz",
+                                            "Timestamp: ${data[index]["timestamp"]}",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Text("Ward Number: 234"),
+                                          Text("Ward Number: ${data[index]["wardnum"]}"),
                                         ],
                                       ),
+
+                                      IconButton(onPressed: ()async{
+                                        await getRequest(Helper.server + "/deletealert/"+data[index]["id"]);
+                                        getEmergencyCalls();
+                                      }, icon: const Icon(Icons.delete_outline, color: Colors.redAccent,))
                                       
                                     ],
                                   )),
@@ -79,22 +102,22 @@ class _EmergencyDetailsState extends State<EmergencyDetails> {
             const SizedBox(
               height: 10,
             ),
-            MaterialButton(
-              height: 50,
-              minWidth: w,
-              onPressed: () {},
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              color: AppColors.secondary,
-              child: const Text(
-                Helper.clearAll,
-                style: TextStyle(
-                    color: AppColors.primary,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0),
-              ),
-            ),
+            // MaterialButton(
+            //   height: 50,
+            //   minWidth: w,
+            //   onPressed: () {},
+            //   shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(10)),
+            //   color: AppColors.secondary,
+            //   child: const Text(
+            //     Helper.clearAll,
+            //     style: TextStyle(
+            //         color: AppColors.primary,
+            //         fontStyle: FontStyle.italic,
+            //         fontWeight: FontWeight.bold,
+            //         fontSize: 18.0),
+            //   ),
+            // ),
           ],
         ),
       )),

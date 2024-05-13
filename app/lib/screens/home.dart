@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:network_info_plus/network_info_plus.dart';
@@ -24,8 +26,9 @@ class _HomeState extends State<Home> {
   Future<String> getwifiName() async {
     final NetworkInfo info = NetworkInfo();
     var wifiName = await info.getWifiName();
+    log(wifiName.toString());
     setState(() {
-      wifiNamee = wifiName ?? "ERROR";
+      wifiNamee = wifiName??"";
     });
     return wifiName ?? "ERROR";
   }
@@ -44,195 +47,205 @@ class _HomeState extends State<Home> {
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: 
-      StreamBuilder<ConnectivityResult>(
-        stream: connectivityStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data == ConnectivityResult.wifi) {
-           return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              Helper.shra,
-              style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.secondary),
-            ),
-            Text(
-              "${Helper.connectedTo}\n$wifiNamee",
-              style:const  TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
-            ),
-            Column(
-              children: [
-                MaterialButton(
-                  height: 50,
-                  minWidth: w,
-                  onPressed: () async{
-                    setState(() {
-                      isLoading = true;
-                    });
-                    final response = await getRequest("${Helper.server}/ping");
-                    if(response.statusCode==200){
+      SafeArea(
+        child: StreamBuilder<ConnectivityResult>(
+          stream: connectivityStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data == ConnectivityResult.wifi) {
+             return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                Helper.shra,
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.secondary),
+              ),
+              Text(
+                "${Helper.connectedTo}\n$wifiNamee",
+                style:const  TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+              ),
+              Column(
+                children: [
+                  MaterialButton(
+                    height: 50,
+                    minWidth: w,
+                    onPressed: () async{
                       setState(() {
-                        statusOk = true;
-                        pingstatus = "The server is up and running!";
-                        isLoading=false;
+                        isLoading = true;
                       });
-                    }
-                    else{
-                      setState(() {
-                        statusOk = false;
-                        pingstatus = "Connect to wrong WiFi/Server down";
-                        isLoading=false;
-                      });
-                    }
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  color: AppColors.secondary,
-                  child: isLoading? const CircularProgressIndicator(color: AppColors.primary,)
-                  :
-                  const Text(
-                    Helper.ping,
+                      try {
+                        final response = await getRequest("${Helper.server}/ping").timeout(Duration(seconds: 5));
+                      if(response.statusCode==200){
+                        setState(() {
+                          statusOk = true;
+                          pingstatus = "The server is up and running!";
+                          isLoading=false;
+                        });
+                      }
+                      else{
+                        setState(() {
+                          statusOk = false;
+                          pingstatus = "Connect to wrong WiFi/Server down";
+                          isLoading=false;
+                        });
+                      }
+                      } catch (e) {
+                        setState(() {
+                          statusOk = false;
+                          pingstatus = "Connect to wrong WiFi/Server down";
+                          isLoading=false;
+                        });
+                      }
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    color: AppColors.secondary,
+                    child: isLoading? const CircularProgressIndicator(color: AppColors.primary,)
+                    :
+                    const Text(
+                      Helper.ping,
+                      style: TextStyle(
+                          color: AppColors.primary,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
+                    )
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Text(Helper.pingToCheck),
+                  Text(pingstatus, style: TextStyle(color: statusOk?Colors.green:Colors.red, fontWeight: FontWeight.bold),)
+                ],
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => const PatienRecords())));
+                },
+                child: Container(
+                  width: w,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: AppColors.green,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.book_outlined,
+                            color: AppColors.primary,
+                            size: 56,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            Helper.patientRecords,
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primary),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => const EmergencyDetails())));
+                },
+                child: Container(
+                  width: w,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: AppColors.darkblue,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.warning_amber_rounded,
+                            color: AppColors.primary,
+                            size: 56,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            Helper.emergencyCalls,
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primary),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  await launchWebUrl("https://github.com/aakzsh/smart-assistant");
+                },
+                child: const Center(
+                  child: Text(
+                    Helper.aboutApp,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: AppColors.primary,
+                        fontSize: 18.0,
                         fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0),
-                  )
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Text(Helper.pingToCheck),
-                Text(pingstatus, style: TextStyle(color: statusOk?Colors.green:Colors.red, fontWeight: FontWeight.bold),)
-              ],
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => const PatienRecords())));
-              },
-              child: Container(
-                width: w,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: AppColors.green,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.book_outlined,
-                          color: AppColors.primary,
-                          size: 56,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          Helper.patientRecords,
-                          style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary),
-                        )
-                      ],
-                    ),
+                        color: AppColors.secondary,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => const EmergencyDetails())));
-              },
-              child: Container(
-                width: w,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: AppColors.darkblue,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.warning_amber_rounded,
-                          color: AppColors.primary,
-                          size: 56,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          Helper.emergencyCalls,
-                          style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary),
-                        )
-                      ],
-                    ),
+              )
+            ],
+          ),
+        );
+            } else {
+              // Display loading indicator or other appropriate UI
+              return const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: double.maxFinite,
                   ),
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () async {
-                await launchWebUrl("https://github.com/aakzsh/smart-assistant");
-              },
-              child: const Center(
-                child: Text(
-                  Helper.aboutApp,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      fontStyle: FontStyle.italic,
-                      color: AppColors.secondary,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            )
-          ],
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Please connect to the WiFi Network\nbefore proceeding",
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    width: double.maxFinite,
+                  ),
+                ],
+              );
+            }
+          },
         ),
-      );
-          } else {
-            // Display loading indicator or other appropriate UI
-            return const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: double.maxFinite,
-                ),
-                CircularProgressIndicator(),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Please connect to the WiFi Network\nbefore proceeding",
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  width: double.maxFinite,
-                ),
-              ],
-            );
-          }
-        },
       )
       
     );

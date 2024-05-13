@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:smartassistant/constants/colors.dart';
 import 'package:smartassistant/constants/helper.dart';
 import 'package:smartassistant/screens/individual_details.dart';
+import 'package:smartassistant/services/apis.dart';
 
 class PatienRecords extends StatefulWidget {
   const PatienRecords({super.key});
@@ -11,6 +14,20 @@ class PatienRecords extends StatefulWidget {
 }
 
 class _PatienRecordsState extends State<PatienRecords> {
+  List<dynamic> data = [];
+  getPatientData()async{
+    final res = await getRequest( "${Helper.server}/patientrecords");
+    // print(res.body);
+    setState(() {
+      data = jsonDecode(res.body)["data"];
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getPatientData();
+  }
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -26,7 +43,7 @@ class _PatienRecordsState extends State<PatienRecords> {
             ],),
             Image.asset("assets/heart-right.png"),
             Expanded(child: ListView.builder(
-              itemCount: 20,
+              itemCount: data.length,
               itemBuilder: ((context, index) => InkWell(child: Padding(
                 padding: const EdgeInsets.symmetric(vertical:8.0),
                 child: Container(
@@ -35,11 +52,11 @@ class _PatienRecordsState extends State<PatienRecords> {
                   decoration: BoxDecoration(color: AppColors.lightblue, borderRadius: BorderRadius.circular(10)),
                   child: Padding(padding: const EdgeInsets.all(10.0), 
                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [const Column(
+                  children: [ Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text("John Doe"), Text("31 M", style: TextStyle(fontWeight: FontWeight.bold),)],),
+                    children: [Text("${data[index]["name"]["first"]} ${data[index]["name"]["last"]}"), Text("${data[index]["gender"].toString()}", style: TextStyle(fontWeight: FontWeight.bold),)],),
                     IconButton(onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const IndividualDetails()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> IndividualDetails(data: data[index])));
                     }, icon: const Icon(Icons.arrow_forward_ios_rounded))
                     ],
                   )

@@ -34,10 +34,23 @@ def pushnotification():
     return ""
 
 
+@app.route('/deletealert/<id>', methods=["GET"])
+def deletealert(id):
+    with open('static/sos-data.json', 'r') as file:
+        data = json.load(file)
+        filtered_list = [m for m in data["sos"] if m["id"] != id]
+        data["sos"] = filtered_list
+        json_string = json.dumps(data, indent=4)
+        # Write the JSON string to a text file
+        with open("static/sos-data.json", "w") as json_file:
+            json_file.write(json_string)
+    return "done"
+
+
 @app.route('/generateresponse', methods=["POST"])
 def generateresponse():
-    return "check"
-
+    
+    return jsonify({"assistance": True, "response": "xyz"})
 
 
 # run command
