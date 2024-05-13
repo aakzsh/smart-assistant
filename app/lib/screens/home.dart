@@ -1,8 +1,11 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:smartassistant/constants/colors.dart';
 import 'package:smartassistant/constants/helper.dart';
 import 'package:smartassistant/screens/emergency_details.dart';
 import 'package:smartassistant/screens/patient_records.dart';
+import 'package:smartassistant/services/apis.dart';
 import 'package:smartassistant/services/launch_url.dart';
 
 class Home extends StatefulWidget {
@@ -13,12 +16,39 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+    Stream<ConnectivityResult> connectivityStream =
+      Connectivity().onConnectivityChanged;
+
+  String wifiNamee = "";
+
+  Future<String> getwifiName() async {
+    final NetworkInfo info = NetworkInfo();
+    var wifiName = await info.getWifiName();
+    setState(() {
+      wifiNamee = wifiName ?? "ERROR";
+    });
+    return wifiName ?? "ERROR";
+  }
+
+  @override
+  void initState() {
+    getwifiName();
+    super.initState();
+  }
+
+  bool statusOk = false;
+  String pingstatus = "";
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SafeArea(
-          child: Padding(
+      body: 
+      StreamBuilder<ConnectivityResult>(
+        stream: connectivityStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data == ConnectivityResult.wifi) {
+           return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,32 +61,54 @@ class _HomeState extends State<Home> {
                   fontWeight: FontWeight.w900,
                   color: AppColors.secondary),
             ),
-            const Text(
-              "${Helper.connectedTo}\nSHRA-WIFI",
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+            Text(
+              "${Helper.connectedTo}\n$wifiNamee",
+              style:const  TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
             ),
             Column(
               children: [
                 MaterialButton(
                   height: 50,
                   minWidth: w,
-                  onPressed: () {},
+                  onPressed: () async{
+                    setState(() {
+                      isLoading = true;
+                    });
+                    final response = await getRequest("${Helper.server}/ping");
+                    if(response.statusCode==200){
+                      setState(() {
+                        statusOk = true;
+                        pingstatus = "The server is up and running!";
+                        isLoading=false;
+                      });
+                    }
+                    else{
+                      setState(() {
+                        statusOk = false;
+                        pingstatus = "Connect to wrong WiFi/Server down";
+                        isLoading=false;
+                      });
+                    }
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   color: AppColors.secondary,
-                  child: const Text(
+                  child: isLoading? const CircularProgressIndicator(color: AppColors.primary,)
+                  :
+                  const Text(
                     Helper.ping,
                     style: TextStyle(
                         color: AppColors.primary,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0),
-                  ),
+                  )
                 ),
                 const SizedBox(
                   height: 5,
                 ),
-                const Text(Helper.pingToCheck)
+                const Text(Helper.pingToCheck),
+                Text(pingstatus, style: TextStyle(color: statusOk?Colors.green:Colors.red, fontWeight: FontWeight.bold),)
               ],
             ),
             InkWell(
@@ -157,7 +209,32 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
-      )),
+      );
+          } else {
+            // Display loading indicator or other appropriate UI
+            return const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: double.maxFinite,
+                ),
+                CircularProgressIndicator(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Please connect to the WiFi Network\nbefore proceeding",
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  width: double.maxFinite,
+                ),
+              ],
+            );
+          }
+        },
+      )
+      
     );
   }
 }
