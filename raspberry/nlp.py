@@ -2,12 +2,18 @@ import speech_recognition as sr
 import pyttsx3
 import requests
 import json
+import google.generativeai as genai
 
 # Initialize Text-to-Speech engine
 engine = pyttsx3.init()
 
 # Initialize Speech Recognition
 recognizer = sr.Recognizer()
+
+#congfiguration of gemini api 
+gemini_api_key = "AIzaSyCevIBWjGD3ByxwMfItNL3vmWhKFw-J0u8"
+genai.configure(api_key=gemini_api_key)
+model = genai.GenerativeModel('gemini-pro')
 
 # Function to speak the response
 def speak(text):
@@ -33,78 +39,26 @@ def listen():
         print("Request to Google Speech Recognition service failed; {0}".format(e))
         return ""
 
-# Function to query Gemini API
-##OG
-# def get_gemini_data(query):
-#     api_key = "AIzaSyCevIBWjGD3ByxwMfItNL3vmWhKFw-J0u8"
-#     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={api_key}"
-#     headers = {"Content-Type": "application/json"}
-#     data = {
-#         "input": {
-#             "textInput": query
-#         }
-#         # "outputConfig": {
-#         #     "gated": False
-#         # }
-#     }
-#     #data_json = json.dumps(data)
-#     response = requests.post(url, headers=headers, json=data)
-#     response_data = response.json()
-#     return response_data
-##DRAFT1
-# def get_gemini_data(query):
-#     api_key = "AIzaSyCevIBWjGD3ByxwMfItNL3vmWhKFw-J0u8"  # Replace with your actual API key
-#     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={api_key}"
-#     headers = {"Content-Type": "application/json"}
-#     data = {
-#         "input": query,
-#         "max_tokens": 100,  # Adjust max_tokens as per your requirement
-#         "temperature": 0.7  # Adjust temperature as per your requirement
-#     }
-#     try:
-#         print("Request Payload:", data)  # Debugging output
-#         response = requests.post(url, headers=headers, json=data)
-#         response.raise_for_status()  # Raise an exception for any HTTP error status codes
-#         response_data = response.json()
-#         return response_data
-#     except requests.exceptions.RequestException as e:
-#         print("Error making request to Gemini API:", e)
-#         return None
 
-##DRAFT22
+
+#gemini data function to generate response 
 def get_gemini_data(query):
-    api_key = "AIzaSyCevIBWjGD3ByxwMfItNL3vmWhKFw-J0u8"  # Replace with your actual API key
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={api_key}"
-    headers = {"Content-Type": "application/json"}
-    data = {
-        "input": query,
-        "max_tokens": 100,  # Adjust max_tokens as per your requirement
-        "temperature": 0.7  # Adjust temperature as per your requirement
-    }
-    try:
-        print("Request Payload:", data)  # Debugging output
-        response = requests.post(url, headers=headers, json=data)
-        print("Response Status Code:", response.status_code)  # Debugging output
-        response.raise_for_status()  # Raise an exception for any HTTP error status codes
-        response_data = response.json()
-        return response_data
-    except requests.exceptions.RequestException as e:
-        print("Error making request to Gemini API:", e)
-        return None
-
-
-
+    response = model.generate_content(query + 'in 20 words')
+    response_text=response.text
+    return response_text
     
+    
+        
 
-# # Example usage
-query = "What is fever."
-result = get_gemini_data(query)
-print(result)
+# # # Example usage
+# query = "What is fever."
+# text = get_gemini_data(query)
+# print(text)
 
 
 # Main function
 def main():
-    speak("Welcome to SHPA, Say help for assistant or emergency to connect to nurse")
+    speak("Welcome to SHRA, Say help for assistant or emergency to connect to nurse")
     wakeup = listen()
     if wakeup == "help":
          speak("Hello! How can I assist you today?")
@@ -115,8 +69,9 @@ def main():
                  break
              elif user_query:
                  gemini_data = get_gemini_data(user_query)
-                 response_text = "Here is what you should do now: {}".format(gemini_data)
+                 response_text = "Here is what you should do now" + gemini_data
                  speak(response_text)
+                 speak('If you want to end assistant say exit')
     elif wakeup == "emergency":
         speak("Connecting to nearest available nurse")
     
