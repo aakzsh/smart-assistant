@@ -68,8 +68,9 @@ def main():
                  speak("Hope I helped you today take care, get well soon!")
                  break
              elif user_query:
-                 gemini_data = get_gemini_data(user_query)
-                 response_text = "Here is what you should do now" + gemini_data
+                 response = requests.post("http://192.168.29.183:5000/generateresponse",data={"query": user_query})
+                #  gemini_data = get_gemini_data(user_query)
+                 response_text = "Here is what you should do now" + response.text
                  speak(response_text)
                  speak('If you want to end assistant say exit')
     elif wakeup == "emergency":

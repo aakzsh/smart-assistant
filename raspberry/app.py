@@ -1,12 +1,13 @@
 import string
-from flask import Flask, render_template, jsonify, json
+from flask import Flask, render_template, jsonify, json, request
 import random
 from datetime import datetime
+import requests
 app = Flask(__name__)
 # Import the Python SDK
 import google.generativeai as genai
 
-GOOGLE_API_KEY="key"
+GOOGLE_API_KEY="AIzaSyCevIBWjGD3ByxwMfItNL3vmWhKFw-J0u8"
 genai.configure(api_key=GOOGLE_API_KEY)
 
 model = genai.GenerativeModel('gemini-pro')
@@ -14,6 +15,13 @@ model = genai.GenerativeModel('gemini-pro')
 @app.route('/')
 def dashboard():
     return render_template('index.html')
+
+@app.route('/patientinfo')
+def patientinfo():
+    data = {}
+    with open('static/all-patients-data.json', 'r') as file:
+        data = json.load(file)
+    return render_template('patientinfo.html', data=data["data"])
 
 @app.route('/ping')
 def ping():
@@ -56,7 +64,8 @@ def deletealert(id):
 
 @app.route('/generateresponse', methods=["POST"])
 def generateresponse():
-    response = model.generate_content("Write a story about a magic backpack in 10 words only.")
+    query = request.form.get('query')
+    response = model.generate_content("suggest as a doctor: " + query + 'in 20 words')
     # print(response.text)
     return str(response.text)
     # return jsonify({"assistance": True, "response": "response"})

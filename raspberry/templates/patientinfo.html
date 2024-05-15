@@ -12,14 +12,19 @@
         <img src="../static/logo.svg" onclick="window.location.href='/'" alt="">
         <a href="/patientinfo">Patient Info</a>
     </div>
-    <div class="text-content">
-        <p class="headingtitle">Smart Hospital Room Assistant</p>
-        <p class="subheadingtitle">SHRA - Admin Portal</p>
-        <p class="desc">All in one solution for hospital patient management systems. Track patient info, alerts, and manage patients for your hospital!</p>
+   <div class="heading-space">
+        <div>
+            <p class="headingtitle">Patients Information</p>
+            <p class="section-desc">Track all your patients here at one place</p>
+        </div>
+        <button class="newpatient">+ Add New Patient</button>
+   </div>
+   <div>
+    {%for i in data%} 
+    <div class="individual-data">
+
     </div>
- 
-    <div class="card-parent">
-        <img src="../static/card.svg" class="card" alt="">
-    </div>
+    {%endfor%} 
+   </div>
 </body>
 </html>
