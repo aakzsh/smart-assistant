@@ -6,6 +6,7 @@ import requests
 app = Flask(__name__)
 # Import the Python SDK
 import google.generativeai as genai
+from push_notification import send_notification
 
 GOOGLE_API_KEY="AIzaSyCevIBWjGD3ByxwMfItNL3vmWhKFw-J0u8"
 genai.configure(api_key=GOOGLE_API_KEY)
@@ -21,7 +22,8 @@ def patientinfo():
     data = {}
     with open('static/all-patients-data.json', 'r') as file:
         data = json.load(file)
-    return render_template('patientinfo.html', data=data["data"])
+    return render_template('patientinfo.html', data=data["data"], image=data["data"][0]["gender"])
+
 
 @app.route('/ping')
 def ping():
@@ -93,6 +95,7 @@ def addalertMethod(patientid):
             json_string = json.dumps(s0sdata, indent=4)
             with open("static/sos-data.json", 'w') as new_file:
                 new_file.write(json_string)
+        send_notification({"name": newdata["patienName"], "wardnum": newdata["wardnum"]})
     return id
 
 

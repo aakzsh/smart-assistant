@@ -55,6 +55,10 @@ def get_gemini_data(query):
 # text = get_gemini_data(query)
 # print(text)
 
+patient_id = "example3"
+base_url = "http://192.168.203.222:5000/"
+# base_url_mobile is 192.168.203.222
+# base_url_home is 192.168.29.183
 
 # Main function
 def main():
@@ -68,16 +72,17 @@ def main():
                  speak("Hope I helped you today take care, get well soon!")
                  break
              elif user_query:
-                 response = requests.post("http://192.168.29.183:5000/generateresponse",data={"query": user_query})
+                 response = requests.post(base_url+ "generateresponse",data={"query": user_query})
                 #  gemini_data = get_gemini_data(user_query)
                  response_text = "Here is what you should do now" + response.text
                  speak(response_text)
                  speak('If you want to end assistant say exit')
     elif wakeup == "emergency":
         speak("Connecting to nearest available nurse")
-    
+        response = requests.post(base_url+ "addalert/"+patient_id,data={"query": "user_query"})
     else:
-        speak("You are doing great, I dont think you need my assistant takecare bye!!")
+        # main()
+        speak("You are doing great, I dont think you need my assistance takecare bye!!")
 
    
 

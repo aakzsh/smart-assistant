@@ -86,4 +86,20 @@ button{
     background-color: #74C3EF30;
     margin-top: 1.5rem;
     border-radius: 0.5rem;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.left{
+    width: 30%;
+    line-height: 0.0rem;
+}
+
+.row{
+    display: flex;
+}
+.key{
+    color: darkblue;
 }
