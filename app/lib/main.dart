@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:smartassistant/screens/landing.dart';
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  OneSignal.shared.setAppId("APP KEY");
+  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted){
+    print("accepted perm");
+  });
   runApp(const App());
 }
 
