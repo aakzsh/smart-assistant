@@ -64,7 +64,7 @@ def get_gemini_data(query):
 # print(text)
 
 patient_id = "example3"
-base_url = "http://192.168.203.222:5000/"
+base_url = "http://192.168.203.236:5000/"
 # base_url_mobile is 192.168.203.222
 # base_url_home is 192.168.29.183
 
@@ -72,7 +72,7 @@ base_url = "http://192.168.203.222:5000/"
 def main():
     ip = get_ip_address()
     print(f"ip is {ip}")
-    base_url = "http://"+ip+":5000/"
+    # base_url = "http://"+ip+":5000/"
     speak("Welcome to SHRA, Say help for assistant or emergency to connect to nurse")
     wakeup = listen()
     if wakeup == "help":
