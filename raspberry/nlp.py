@@ -1,3 +1,4 @@
+import socket
 import speech_recognition as sr
 import pyttsx3
 import requests
@@ -14,6 +15,12 @@ recognizer = sr.Recognizer()
 gemini_api_key = "AIzaSyCevIBWjGD3ByxwMfItNL3vmWhKFw-J0u8"
 genai.configure(api_key=gemini_api_key)
 model = genai.GenerativeModel('gemini-pro')
+
+
+def get_ip_address():
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    return ip_address
 
 # Function to speak the response
 def speak(text):
@@ -50,6 +57,7 @@ def get_gemini_data(query):
     
         
 
+
 # # # Example usage
 # query = "What is fever."
 # text = get_gemini_data(query)
@@ -62,6 +70,9 @@ base_url = "http://192.168.203.222:5000/"
 
 # Main function
 def main():
+    ip = get_ip_address()
+    print(f"ip is {ip}")
+    base_url = "http://"+ip+":5000/"
     speak("Welcome to SHRA, Say help for assistant or emergency to connect to nurse")
     wakeup = listen()
     if wakeup == "help":
