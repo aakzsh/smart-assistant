@@ -7,7 +7,8 @@ import 'package:smartassistant/screens/individual_details.dart';
 import 'package:smartassistant/services/apis.dart';
 
 class PatienRecords extends StatefulWidget {
-  const PatienRecords({super.key});
+  const PatienRecords({super.key, required this.ip});
+  final String ip;
 
   @override
   State<PatienRecords> createState() => _PatienRecordsState();
@@ -16,7 +17,7 @@ class PatienRecords extends StatefulWidget {
 class _PatienRecordsState extends State<PatienRecords> {
   List<dynamic> data = [];
   getPatientData()async{
-    final res = await getRequest( "${Helper.server}/patientrecords");
+    final res = await getRequest( "http://${widget.ip}:5000/patientrecords");
     // print(res.body);
     setState(() {
       data = jsonDecode(res.body)["data"];

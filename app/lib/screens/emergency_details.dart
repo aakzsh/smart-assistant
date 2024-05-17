@@ -6,8 +6,8 @@ import 'package:smartassistant/constants/helper.dart';
 import 'package:smartassistant/services/apis.dart';
 
 class EmergencyDetails extends StatefulWidget {
-  const EmergencyDetails({super.key});
-
+  const EmergencyDetails({super.key, required this.ip});
+  final String ip;
   @override
   State<EmergencyDetails> createState() => _EmergencyDetailsState();
 }
@@ -15,7 +15,7 @@ class EmergencyDetails extends StatefulWidget {
 class _EmergencyDetailsState extends State<EmergencyDetails> {
     List<dynamic> data = [];
   getEmergencyCalls()async{
-    final res = await getRequest( "${Helper.server}/emergencycalls");
+    final res = await getRequest( "http://${widget.ip}:5000/emergencycalls");
     // print(res.body);
     setState(() {
       data = jsonDecode(res.body)["sos"];
@@ -90,7 +90,7 @@ class _EmergencyDetailsState extends State<EmergencyDetails> {
                                       ),
 
                                       IconButton(onPressed: ()async{
-                                        await getRequest(Helper.server + "/deletealert/"+data[index]["id"]);
+                                        await getRequest("http://"+ widget.ip+ ":5000/deletealert/"+data[index]["id"]);
                                         getEmergencyCalls();
                                       }, icon: const Icon(Icons.delete_outline, color: Colors.redAccent,))
                                       

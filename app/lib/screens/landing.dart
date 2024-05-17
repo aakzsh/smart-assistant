@@ -10,6 +10,7 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -66,11 +67,16 @@ class _LandingState extends State<Landing> {
                   const SizedBox(
                     height: 30,
                   ),
+                  Container(width: w,
+                  child: TextField(decoration: InputDecoration(hintText: "Enter Server IP"),
+                  controller: controller,
+                  ),
+                  ),
                   MaterialButton(
                     height: 50,
                     minWidth: w,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const Home()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(ip: controller.text)));
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),

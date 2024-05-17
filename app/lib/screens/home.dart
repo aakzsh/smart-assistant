@@ -11,24 +11,35 @@ import 'package:smartassistant/services/apis.dart';
 import 'package:smartassistant/services/launch_url.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({super.key, required this.ip});
+  final String ip;
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  bool isValidIP(String ipAddress) {
+  final ipRegExp = RegExp(
+      r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$');
+  return ipRegExp.hasMatch(ipAddress);
+}
+
     Stream<ConnectivityResult> connectivityStream =
       Connectivity().onConnectivityChanged;
 
   String wifiNamee = "";
-
+  String wifiip = "";
   Future<String> getwifiName() async {
     final NetworkInfo info = NetworkInfo();
     var wifiName = await info.getWifiName();
+    // var ip = await info.getWifiIP();
+    var ip = await info.getWifiGatewayIP();
+    log("ip is " + ip.toString());
     log(wifiName.toString());
     setState(() {
       wifiNamee = wifiName??"";
+      wifiip = isValidIP(widget.ip)?widget.ip:"192.168.29.236";
     });
     return wifiName ?? "ERROR";
   }
@@ -66,7 +77,7 @@ class _HomeState extends State<Home> {
                     color: AppColors.secondary),
               ),
               Text(
-                "${Helper.connectedTo}\n$wifiNamee",
+                "${Helper.connectedTo}\n$wifiNamee\n$wifiip",
                 style:const  TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
               ),
               Column(
@@ -79,7 +90,7 @@ class _HomeState extends State<Home> {
                         isLoading = true;
                       });
                       try {
-                        final response = await getRequest("${Helper.server}/ping").timeout(Duration(seconds: 5));
+                        final response = await getRequest("http://$wifiip:5000/ping").timeout(Duration(seconds: 5));
                       if(response.statusCode==200){
                         setState(() {
                           statusOk = true;
@@ -128,7 +139,7 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => const PatienRecords())));
+                          builder: ((context) =>  PatienRecords(ip: wifiip))));
                 },
                 child: Container(
                   width: w,
@@ -168,7 +179,7 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => const EmergencyDetails())));
+                          builder: ((context) =>  EmergencyDetails(ip: wifiip,))));
                 },
                 child: Container(
                   width: w,

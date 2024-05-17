@@ -17,5 +17,5 @@ class Helper{
   static const saveDetails = "Save Details";
   static const clearAll = "Clear All";
   static const learnMore = "Learn More";
-  static const server = "http://192.168.29.183:5000";
+  // static const server = "http://192.168.29.183:5000";
 }
