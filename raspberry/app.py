@@ -75,10 +75,12 @@ def generateresponse():
 
 def addalertMethod(patientid):
     id = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+    print("checkpoint 0")
     with open('static/all-patients-data.json', 'r') as file:
         data = json.load(file)
         current_timestamp = datetime.now()
         formatted_timestamp = current_timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        print("checkpoint 1")
         newdata = {}
         patientInfo = get_map_by_id(data["data"], patientid)
         newdata["age"] = patientInfo["age"]
@@ -87,7 +89,7 @@ def addalertMethod(patientid):
         newdata["patientName"] = patientInfo["name"]["first"] + " " + patientInfo["name"]["last"]
         newdata["timestamp"] = formatted_timestamp
         newdata["wardnum"] = patientInfo["wardnum"]
-
+        print("checkpoint 2")
         # Write the JSON string to a text file
         with open("static/sos-data.json", 'r') as sosfile:
             s0sdata = json.load(sosfile)
@@ -95,7 +97,8 @@ def addalertMethod(patientid):
             json_string = json.dumps(s0sdata, indent=4)
             with open("static/sos-data.json", 'w') as new_file:
                 new_file.write(json_string)
-        send_notification({"name": newdata["patienName"], "wardnum": newdata["wardnum"]})
+        print("checkpoint 3")
+        send_notification({"name": newdata["patientName"], "wardnum": newdata["wardnum"]})
     return id
 
 
