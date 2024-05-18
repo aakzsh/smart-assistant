@@ -13,3 +13,6 @@ train nlp model / or try chatgpt apis
 send a webhook notification
 flutter app setup - ui, push notifications, etc 
 configure raspberry pi with the flask project
+
+# Demo Video
+https://youtu.be/d8QeST91W4A
