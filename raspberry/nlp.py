@@ -106,6 +106,7 @@ genai.configure(api_key=gemini_api_key)
 model = genai.GenerativeModel('gemini-pro')
 
 
+
 def get_ip_address():
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
@@ -155,7 +156,7 @@ def get_gemini_data(query):
 # print(text)
 
 patient_id = "example3"
-base_url = "http://192.168.163.133:5000/"
+base_url = "http://192.168.203.133:5000/"
 # base_url_mobile is 192.168.203.222
 # base_url_home is 192.168.29.183
 
